@@ -1,0 +1,35 @@
+services:
+  bot:
+    build:
+      context: bot
+    env_file: .env
+    volumes:
+      - ./bot:/app/
+      - pg_logs:/var/log/
+    restart: no
+    depends_on:
+      - postgres_primary
+
+  postgres_primary:
+    build:
+      context: db
+    env_file: .env
+    volumes:
+      - pg_logs:/var/log/
+      - pg_data:/var/lib/postgresql
+    ports:
+      - 5432:5432
+    restart: no
+
+  postgres_replica:
+    build:
+      context: db_repl
+    env_file: .env
+    ports:
+      - 5433:5432
+    restart: no
+    depends_on:
+      - postgres_primary
+volumes:
+  pg_logs:
+  pg_data:
