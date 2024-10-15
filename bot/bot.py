@@ -60,7 +60,7 @@ def start(update: Update, context):
     update.message.reply_text(f'Привет {user.full_name}!')
 
 
-def getEmails(update: Update, context):
+def get_emails(update: Update, context):
     conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
     cursor = conn.cursor()
     cursor.execute("SELECT email FROM emails")
@@ -77,7 +77,7 @@ def getEmails(update: Update, context):
 
     return ConversationHandler.END
 
-def getPhones(update: Update, context):
+def get_phone_numbers(update: Update, context):
     conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
     cursor = conn.cursor()
     cursor.execute("SELECT phone_number FROM phones")
@@ -94,25 +94,25 @@ def getPhones(update: Update, context):
 
     return ConversationHandler.END
 
-def findPhoneNumbersCommand(update: Update, context):
+def find_phone_number_command(update: Update, context):
     update.message.reply_text('Введите текст для поиска телефонных номеров: ')
 
-    return 'findPhoneNumbers'
+    return 'find_phone_number'
 
 def helpCommand(update: Update, context):
     update.message.reply_text('Help!')
 
-def findEmailCommand(update: Update, context):
+def find_email_command(update: Update, context):
     update.message.reply_text('Введите текст для поиска email адресов: ')
 
-    return 'findEmail'
+    return 'find_email'
 
-def verifyPasswordCommand(update: Update, context):
+def verify_password_command(update: Update, context):
     update.message.reply_text('Введите пароль на проверку: ')
 
-    return 'verifyPassword'
+    return 'verify_password'
 
-def getRelease(update: Update, context):
+def get_release(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("lsb_release -a")
@@ -122,7 +122,7 @@ def getRelease(update: Update, context):
 
     return ConversationHandler.END
 
-def getUname(update: Update, context):
+def get_uname(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("uname -a")
@@ -132,7 +132,7 @@ def getUname(update: Update, context):
 
     return ConversationHandler.END
 
-def getUptime(update: Update, context):
+def get_uptime(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("uptime")
@@ -142,7 +142,7 @@ def getUptime(update: Update, context):
 
     return ConversationHandler.END
 
-def getDf(update: Update, context):
+def get_df(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("df")
@@ -152,7 +152,7 @@ def getDf(update: Update, context):
 
     return ConversationHandler.END
 
-def getFree(update: Update, context):
+def get_free(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("free -h")
@@ -162,7 +162,7 @@ def getFree(update: Update, context):
 
     return ConversationHandler.END
 
-def getMpstat(update: Update, context):
+def get_mpstat(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("mpstat")
@@ -172,7 +172,7 @@ def getMpstat(update: Update, context):
 
     return ConversationHandler.END
 
-def getW(update: Update, context):
+def get_w(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("w")
@@ -182,7 +182,7 @@ def getW(update: Update, context):
 
     return ConversationHandler.END
 
-def getAuth(update: Update, context):
+def get_auths(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("last -n 10")
@@ -192,7 +192,7 @@ def getAuth(update: Update, context):
 
     return ConversationHandler.END
 
-def getCrit(update: Update, context):
+def get_critical(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("journalctl -p crit -n 5")
@@ -202,7 +202,7 @@ def getCrit(update: Update, context):
 
     return ConversationHandler.END
 
-def getPs(update: Update, context):
+def get_ps(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("ps")
@@ -212,7 +212,7 @@ def getPs(update: Update, context):
 
     return ConversationHandler.END
 
-def getSs(update: Update, context):
+def get_ss(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("ss -l | tail")
@@ -222,7 +222,7 @@ def getSs(update: Update, context):
 
     return ConversationHandler.END
 
-def getServices(update: Update, context):
+def get_services(update: Update, context):
     client = connect()
 
     stdin, stdout, stderr = client.exec_command("service --status-all")
@@ -232,13 +232,13 @@ def getServices(update: Update, context):
 
     return ConversationHandler.END
 
-def getAptListCommand(update: Update, context):
+def get_apt_list_command(update: Update, context):
     update.message.reply_text('Введите 1 что бы увидеть список всех пакетов, либо название пакета что бы получить информацию о конкретном пакете')
 
-    return 'getAptList'
+    return 'get_apt_list'
 
 
-def getAptList(update: Update, context):
+def get_apt_list(update: Update, context):
     client = connect()
 
     user_input = update.message.text
@@ -262,7 +262,7 @@ def getAptList(update: Update, context):
 
 #     return ConversationHandler.END
 
-def getReplLogs(update: Update, context):
+def get_repl_logs(update: Update, context):
     try:
         result = subprocess.run(
             ["bash", "-c", f"cat /var/log/postgresql/postgresql.log | grep 'repl' | tail -n 15"],
@@ -278,7 +278,7 @@ def getReplLogs(update: Update, context):
         update.message.reply_text(f"Ошибка при получении логов: {str(e)}")
 
 
-def verifyPassword(update: Update, context):
+def verify_password(update: Update, context):
     user_input = update.message.text
 
     passwordRegex = re.compile(r'(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()]).{8,}')
@@ -290,7 +290,7 @@ def verifyPassword(update: Update, context):
     update.message.reply_text('Пароль сложный')
     return ConversationHandler.END
 
-def findEmail (update: Update, context):
+def find_email (update: Update, context):
     user_input = update.message.text
     emailRegex = re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
     emailList = emailRegex.findall(user_input)
@@ -331,7 +331,7 @@ def saveEmail(update: Update, context):
     return ConversationHandler.END
         
 
-def findPhoneNumbers (update: Update, context):
+def find_phone_number (update: Update, context):
     user_input = update.message.text 
 
     # регулярное выражение для всех вариантов номеров
@@ -377,154 +377,154 @@ def main():
     dp = updater.dispatcher
 
     convHandlerFindPhoneNumbers = ConversationHandler(
-        entry_points=[CommandHandler('findPhoneNumbers', findPhoneNumbersCommand)],
+        entry_points=[CommandHandler('find_phone_number', find_phone_number_command)],
         states={
-            'findPhoneNumbers': [MessageHandler(Filters.text & ~Filters.command, findPhoneNumbers)],
+            'find_phone_number': [MessageHandler(Filters.text & ~Filters.command, find_phone_number)],
             'savePhone': [MessageHandler(Filters.text & ~Filters.command, savePhone)]
         },
         fallbacks=[]
     )
     convHandlerFindEmail = ConversationHandler(
-        entry_points=[CommandHandler('findEmail', findEmailCommand)],
+        entry_points=[CommandHandler('find_email', find_email_command)],
         states={
-            'findEmail': [MessageHandler(Filters.text & ~Filters.command, findEmail)],
+            'find_email': [MessageHandler(Filters.text & ~Filters.command, find_email)],
             'saveEmail': [MessageHandler(Filters.text & ~Filters.command, saveEmail)]
         },
         fallbacks=[]
     )
 
     convHandlerVerifyPassword = ConversationHandler(
-        entry_points=[CommandHandler('verifyPassword', verifyPasswordCommand)],
+        entry_points=[CommandHandler('verify_password', verify_password_command)],
         states={
-            'verifyPassword': [MessageHandler(Filters.text & ~Filters.command, verifyPassword)],
+            'verify_password': [MessageHandler(Filters.text & ~Filters.command, verify_password)],
         },
         fallbacks=[]
     )
 	
     convHandlerGetRelease = ConversationHandler(
-        entry_points=[CommandHandler('getRelease', getRelease)],
+        entry_points=[CommandHandler('get_release', get_release)],
         states={
-            'getRelease': [MessageHandler(Filters.text & ~Filters.command, getRelease)],
+            'get_release': [MessageHandler(Filters.text & ~Filters.command, get_release)],
         },
         fallbacks=[]
     )
 
     convHandlerGetUname = ConversationHandler(
-        entry_points=[CommandHandler('GetUname', getUname)],
+        entry_points=[CommandHandler('get_uname', get_uname)],
         states={
-            'GetUname': [MessageHandler(Filters.text & ~Filters.command, getUname)],
+            'get_uname': [MessageHandler(Filters.text & ~Filters.command, get_uname)],
         },
         fallbacks=[]
     )
 
     convHandlerGetUptime = ConversationHandler(
-        entry_points=[CommandHandler('GetUptime', getUptime)],
+        entry_points=[CommandHandler('get_uptime', get_uptime)],
         states={
-            'GetUptime': [MessageHandler(Filters.text & ~Filters.command, getUptime)],
+            'get_uptime': [MessageHandler(Filters.text & ~Filters.command, get_uptime)],
         },
         fallbacks=[]
     )
 
     convHandlerGetDf = ConversationHandler(
-        entry_points=[CommandHandler('GetDf', getDf)],
+        entry_points=[CommandHandler('get_df', get_df)],
         states={
-            'GetDf': [MessageHandler(Filters.text & ~Filters.command, getDf)],
+            'get_df': [MessageHandler(Filters.text & ~Filters.command, get_df)],
         },
         fallbacks=[]
     )
 
     convHandlerGetFree = ConversationHandler(
-        entry_points=[CommandHandler('GetFree', getFree)],
+        entry_points=[CommandHandler('get_free', get_free)],
         states={
-            'GetFree': [MessageHandler(Filters.text & ~Filters.command, getFree)],
+            'get_free': [MessageHandler(Filters.text & ~Filters.command, get_free)],
         },
         fallbacks=[]
     )
 
     convHandlerGetMpstat = ConversationHandler(
-        entry_points=[CommandHandler('GetMpstat', getMpstat)],
+        entry_points=[CommandHandler('get_mpstat', get_mpstat)],
         states={
-            'GetMpstat': [MessageHandler(Filters.text & ~Filters.command, getMpstat)],
+            'get_mpstat': [MessageHandler(Filters.text & ~Filters.command, get_mpstat)],
         },
         fallbacks=[]
     )
 
     convHandlerGetW = ConversationHandler(
-        entry_points=[CommandHandler('GetW', getW)],
+        entry_points=[CommandHandler('get_w', get_w)],
         states={
-            'GetW': [MessageHandler(Filters.text & ~Filters.command, getW)],
+            'get_w': [MessageHandler(Filters.text & ~Filters.command, get_w)],
         },
         fallbacks=[]
     )
 
     convHandlerGetAuth = ConversationHandler(
-        entry_points=[CommandHandler('GetAuth', getAuth)],
+        entry_points=[CommandHandler('get_auths', get_auths)],
         states={
-            'GetAuth': [MessageHandler(Filters.text & ~Filters.command, getAuth)],
+            'get_auths': [MessageHandler(Filters.text & ~Filters.command, get_auths)],
         },
         fallbacks=[]
     )
 
     convHandlerGetCrit = ConversationHandler(
-        entry_points=[CommandHandler('GetCrit', getCrit)],
+        entry_points=[CommandHandler('get_critical', get_critical)],
         states={
-            'GetCrit': [MessageHandler(Filters.text & ~Filters.command, getCrit)],
+            'get_critical': [MessageHandler(Filters.text & ~Filters.command, get_critical)],
         },
         fallbacks=[]
     )
 
     convHandlerGetPs = ConversationHandler(
-        entry_points=[CommandHandler('GetPs', getPs)],
+        entry_points=[CommandHandler('get_ps', get_ps)],
         states={
-            'GetPs': [MessageHandler(Filters.text & ~Filters.command, getPs)],
+            'get_ps': [MessageHandler(Filters.text & ~Filters.command, get_ps)],
         },
         fallbacks=[]
     )
 
     convHandlerGetSs = ConversationHandler(
-        entry_points=[CommandHandler('GetSs', getSs)],
+        entry_points=[CommandHandler('get_ss', get_ss)],
         states={
-            'GetSs': [MessageHandler(Filters.text & ~Filters.command, getSs)],
+            'get_ss': [MessageHandler(Filters.text & ~Filters.command, get_ss)],
         },
         fallbacks=[]
     )
 
     convHandlerGetServices = ConversationHandler(
-        entry_points=[CommandHandler('GetServices', getServices)],
+        entry_points=[CommandHandler('get_services', get_services)],
         states={
-            'GetServices': [MessageHandler(Filters.text & ~Filters.command, getServices)],
+            'get_services': [MessageHandler(Filters.text & ~Filters.command, get_services)],
         },
         fallbacks=[]
     )
 
     convHandlerGetAptList = ConversationHandler(
-        entry_points=[CommandHandler('GetAptList', getAptListCommand)],
+        entry_points=[CommandHandler('get_apt_list', get_apt_list_command)],
         states={
-            'getAptList': [MessageHandler(Filters.text & ~Filters.command, getAptList)],
+            'get_apt_list': [MessageHandler(Filters.text & ~Filters.command, get_apt_list)],
         },
         fallbacks=[]
     )
 
     convHandlerGetReplLogs = ConversationHandler(
-        entry_points=[CommandHandler('GetReplLogs', getReplLogs)],
+        entry_points=[CommandHandler('get_repl_logs', get_repl_logs)],
         states={
-            'GetReplLogs': [MessageHandler(Filters.text & ~Filters.command, getReplLogs)],
+            'get_repl_logs': [MessageHandler(Filters.text & ~Filters.command, get_repl_logs)],
         },
         fallbacks=[]
     )
 
     convHandlerGetEmails = ConversationHandler(
-        entry_points=[CommandHandler('GetEmails', getEmails)],
+        entry_points=[CommandHandler('get_emails', get_emails)],
         states={
-            'GetEmails': [MessageHandler(Filters.text & ~Filters.command, getEmails)],
+            'get_emails': [MessageHandler(Filters.text & ~Filters.command, get_emails)],
         },
         fallbacks=[]
     )
 
     convHandlerGetPhones = ConversationHandler(
-        entry_points=[CommandHandler('GetPhones', getPhones)],
+        entry_points=[CommandHandler('get_phone_numbers', get_phone_numbers)],
         states={
-            'GetPhones': [MessageHandler(Filters.text & ~Filters.command, getPhones)],
+            'get_phone_numbers': [MessageHandler(Filters.text & ~Filters.command, get_phone_numbers)],
         },
         fallbacks=[]
     )
